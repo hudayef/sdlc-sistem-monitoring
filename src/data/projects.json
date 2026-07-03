@@ -1,0 +1,377 @@
+[
+  {
+    "id": "proj-1",
+    "name": "SmartSaaS E-Commerce Platform",
+    "description": "A modern multi-tenant e-commerce platform featuring an interactive admin dashboard, real-time analytics, and localized payment gateway integration.",
+    "owner": "Sarah Jenkins",
+    "deadline": "2026-10-15",
+    "priority": "High",
+    "status": "In Progress",
+    "lastUpdate": "2026-07-03T10:00:00Z",
+    "documents": [
+      { "name": "SRS_v1.2.pdf", "type": "pdf" },
+      { "name": "PRD_SaaS_Ecommerce.docx", "type": "docx" },
+      { "name": "Userflow_Main_Journey.fig", "type": "fig" },
+      { "name": "Figma_UI_Design_System.fig", "type": "fig" },
+      { "name": "Database_Schema_v2.drawio", "type": "drawio" },
+      { "name": "API_Endpoints_Spec.yaml", "type": "yaml" }
+    ],
+    "stages": [
+      {
+        "id": "business_idea",
+        "name": "Business Idea",
+        "status": "Completed",
+        "notes": "Concept approved by stakeholders. The core value prop is custom tenant storefronts with one-click checkout.",
+        "checklist": [
+          { "id": "bi-1", "task": "Define core problem & target audience", "completed": true },
+          { "id": "bi-2", "task": "Draft initial value proposition", "completed": true },
+          { "id": "bi-3", "task": "Identify target user personas", "completed": true }
+        ]
+      },
+      {
+        "id": "market_research",
+        "name": "Market Research",
+        "status": "Completed",
+        "notes": "Reviewed competitors Shopify, Commerce.js, and Medusa. Distinctive feature will be local Indonesian payment methods out-of-the-box.",
+        "checklist": [
+          { "id": "mr-1", "task": "Perform competitor feature matrix analysis", "completed": true },
+          { "id": "mr-2", "task": "Conduct target seller interviews", "completed": true },
+          { "id": "mr-3", "task": "Define market sizing (TAM/SAM/SOM)", "completed": true }
+        ]
+      },
+      {
+        "id": "requirement_analysis",
+        "name": "Requirement Analysis",
+        "status": "Completed",
+        "notes": "Detailed stakeholder interviews completed. Focus areas: multi-tenancy database separation, checkout performance.",
+        "checklist": [
+          { "id": "ra-1", "task": "Stakeholder requirements interview", "completed": true },
+          { "id": "ra-2", "task": "Document core business workflows", "completed": true },
+          { "id": "ra-3", "task": "Draft functional & non-functional requirements", "completed": true }
+        ]
+      },
+      {
+        "id": "srs",
+        "name": "Software Requirement Specification (SRS)",
+        "status": "Completed",
+        "notes": "SRS v1.2 signed off by Product Director and Engineering Lead. Archived in Google Drive.",
+        "checklist": [
+          { "id": "srs-1", "task": "Draft SRS document structure", "completed": true },
+          { "id": "srs-2", "task": "Specify system constraints & hardware requirements", "completed": true },
+          { "id": "srs-3", "task": "Obtain official engineering sign-off", "completed": true }
+        ]
+      },
+      {
+        "id": "prd",
+        "name": "Product Requirement Document (PRD)",
+        "status": "Completed",
+        "notes": "PRD created. Core features for MVP: product catalog, checkout, order tracking, admin store editor.",
+        "checklist": [
+          { "id": "prd-1", "task": "Define feature scope and MVP milestones", "completed": true },
+          { "id": "prd-2", "task": "Set key metrics & success criteria", "completed": true },
+          { "id": "prd-3", "task": "Draft PRD document for developers", "completed": true }
+        ]
+      },
+      {
+        "id": "user_flow",
+        "name": "User Flow",
+        "status": "Completed",
+        "notes": "Checkout flow optimized to 3 steps. Merchant onboarding flow finalized.",
+        "checklist": [
+          { "id": "uf-1", "task": "Map buyer checkout journey flow", "completed": true },
+          { "id": "uf-2", "task": "Map merchant store setup flow", "completed": true },
+          { "id": "uf-3", "task": "Review flows with QA and Frontend teams", "completed": true }
+        ]
+      },
+      {
+        "id": "wireframe",
+        "name": "Wireframe",
+        "status": "Completed",
+        "notes": "Lo-fi wireframes tested with 5 users. Cart visibility issue resolved in subsequent revision.",
+        "checklist": [
+          { "id": "wf-1", "task": "Design low-fidelity wireframes in Figma", "completed": true },
+          { "id": "wf-2", "task": "Conduct user walkthrough tests", "completed": true },
+          { "id": "wf-3", "task": "Update wireframes based on navigation feedback", "completed": true }
+        ]
+      },
+      {
+        "id": "ui_design",
+        "name": "UI Design",
+        "status": "In Progress",
+        "notes": "Desktop layouts 100% complete. Mobile layouts for checkout and storefront currently in review.",
+        "checklist": [
+          { "id": "ui-1", "task": "Create high-fidelity screens for Merchant Dashboard", "completed": true },
+          { "id": "ui-2", "task": "Create high-fidelity screens for Buyer Storefront", "completed": true },
+          { "id": "ui-3", "task": "Design responsive mobile layout views", "completed": false },
+          { "id": "ui-4", "task": "Complete UI light/dark mode variants", "completed": false }
+        ]
+      },
+      {
+        "id": "design_system",
+        "name": "Design System",
+        "status": "In Progress",
+        "notes": "Typography, colors, and buttons are implemented. Card grids and forms are under development.",
+        "checklist": [
+          { "id": "ds-1", "task": "Define token structure (colors, fonts, spacing)", "completed": true },
+          { "id": "ds-2", "task": "Build basic button & input components", "completed": true },
+          { "id": "ds-3", "task": "Create advanced dropdown & modal system UI components", "completed": false }
+        ]
+      },
+      {
+        "id": "database_design",
+        "name": "Database Design",
+        "status": "In Progress",
+        "notes": "PostgreSQL schema created. Indexing strategy for products search is being discussed.",
+        "checklist": [
+          { "id": "db-1", "task": "Draw Entity Relationship Diagram (ERD)", "completed": true },
+          { "id": "db-2", "task": "Draft table schemas & data relationships", "completed": true },
+          { "id": "db-3", "task": "Configure indexes for fast query execution", "completed": false }
+        ]
+      },
+      {
+        "id": "api_design",
+        "name": "API Design",
+        "status": "Pending",
+        "notes": "REST API spec is outline only. Plan to use GraphQL for storefront, REST for dashboard.",
+        "checklist": [
+          { "id": "api-1", "task": "Map REST API endpoints outline", "completed": false },
+          { "id": "api-2", "task": "Generate Swagger UI/OpenAPI definition file", "completed": false },
+          { "id": "api-3", "task": "Validate schemas with Mockoon", "completed": false }
+        ]
+      },
+      {
+        "id": "software_architecture",
+        "name": "Software Architecture",
+        "status": "Pending",
+        "notes": "Planning Next.js frontend, NestJS backend, hosted on Vercel & AWS respectively.",
+        "checklist": [
+          { "id": "arch-1", "task": "Select core framework stack & serverless providers", "completed": false },
+          { "id": "arch-2", "task": "Design multi-tenant tenant-isolation strategy", "completed": false }
+        ]
+      },
+      {
+        "id": "development_sprint",
+        "name": "Development Sprint",
+        "status": "Pending",
+        "notes": "Pending design and API layout completions.",
+        "checklist": [
+          { "id": "dev-1", "task": "Initialize GitHub repo & configure lint/prettier rules", "completed": false },
+          { "id": "dev-2", "task": "Complete core authentication integration (OAuth)", "completed": false },
+          { "id": "dev-3", "task": "Implement tenant registration & domain routing", "completed": false }
+        ]
+      },
+      {
+        "id": "testing",
+        "name": "Testing",
+        "status": "Pending",
+        "notes": "Planned for late August.",
+        "checklist": [
+          { "id": "test-1", "task": "Write unit tests for checkout business logic", "completed": false },
+          { "id": "test-2", "task": "Execute user acceptance testing (UAT)", "completed": false }
+        ]
+      },
+      {
+        "id": "deployment",
+        "name": "Deployment",
+        "status": "Pending",
+        "notes": "Target hosting: Vercel for Frontend, ECS Fargate for Backend.",
+        "checklist": [
+          { "id": "dep-1", "task": "Configure production domains & custom SSL", "completed": false },
+          { "id": "dep-2", "task": "Deploy staging environments", "completed": false }
+        ]
+      },
+      {
+        "id": "monitoring",
+        "name": "Monitoring",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "mon-1", "task": "Integrate Sentry for error collection", "completed": false },
+          { "id": "mon-2", "task": "Setup Datadog performance dashboards", "completed": false }
+        ]
+      },
+      {
+        "id": "maintenance",
+        "name": "Maintenance",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "maint-1", "task": "Set up monthly dependencies audit process", "completed": false },
+          { "id": "maint-2", "task": "Draft maintenance schedule calendar", "completed": false }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "proj-2",
+    "name": "FinTech Wallet Dashboard",
+    "description": "Secure cross-border payment dashboard with visual ledger tracing, automated invoice tracking, and bank integration.",
+    "owner": "Marcus Aurelius",
+    "deadline": "2026-12-01",
+    "priority": "Medium",
+    "status": "In Progress",
+    "lastUpdate": "2026-07-02T15:30:00Z",
+    "documents": [
+      { "name": "SRS_FinTech_v1.0.pdf", "type": "pdf" },
+      { "name": "Ledger_Architecture.drawio", "type": "drawio" }
+    ],
+    "stages": [
+      {
+        "id": "business_idea",
+        "name": "Business Idea",
+        "status": "Completed",
+        "notes": "Focus on lowering cross-border fees for small business invoice generation.",
+        "checklist": [
+          { "id": "bi2-1", "task": "Determine cross-border payment bottlenecks", "completed": true },
+          { "id": "bi2-2", "task": "Draft value statement", "completed": true }
+        ]
+      },
+      {
+        "id": "market_research",
+        "name": "Market Research",
+        "status": "Completed",
+        "notes": "Identified high fees on SWIFT as prime issue.",
+        "checklist": [
+          { "id": "mr2-1", "task": "Review competitors fee structures", "completed": true },
+          { "id": "mr2-2", "task": "Conduct survey on transaction frequencies", "completed": true }
+        ]
+      },
+      {
+        "id": "requirement_analysis",
+        "name": "Requirement Analysis",
+        "status": "In Progress",
+        "notes": "Clarifying regulatory requirements (AML/KYC compliance in EU and SEA).",
+        "checklist": [
+          { "id": "ra2-1", "task": "Map local banking compliance requirements", "completed": true },
+          { "id": "ra2-2", "task": "List functional security guidelines", "completed": false }
+        ]
+      },
+      {
+        "id": "srs",
+        "name": "Software Requirement Specification (SRS)",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "srs2-1", "task": "Draft security compliance specifications", "completed": false }
+        ]
+      },
+      {
+        "id": "prd",
+        "name": "Product Requirement Document (PRD)",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "prd2-1", "task": "Draft feature roadmap", "completed": false }
+        ]
+      },
+      {
+        "id": "user_flow",
+        "name": "User Flow",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "uf2-1", "task": "Design payment ledger workflow", "completed": false }
+        ]
+      },
+      {
+        "id": "wireframe",
+        "name": "Wireframe",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "wf2-1", "task": "Sketch ledger transaction table dashboard", "completed": false }
+        ]
+      },
+      {
+        "id": "ui_design",
+        "name": "UI Design",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "ui2-1", "task": "Design clean finance charts layout", "completed": false }
+        ]
+      },
+      {
+        "id": "design_system",
+        "name": "Design System",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "ds2-1", "task": "Select high-accessibility typography", "completed": false }
+        ]
+      },
+      {
+        "id": "database_design",
+        "name": "Database Design",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "db2-1", "task": "Plan double-entry bookkeeping schema", "completed": false }
+        ]
+      },
+      {
+        "id": "api_design",
+        "name": "API Design",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "api2-1", "task": "Define endpoints for transactions and payouts", "completed": false }
+        ]
+      },
+      {
+        "id": "software_architecture",
+        "name": "Software Architecture",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "arch2-1", "task": "Choose microservices vs monolithic deployment model", "completed": false }
+        ]
+      },
+      {
+        "id": "development_sprint",
+        "name": "Development Sprint",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "dev2-1", "task": "Set up infrastructure with high-security IAM", "completed": false }
+        ]
+      },
+      {
+        "id": "testing",
+        "name": "Testing",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "test2-1", "task": "Prepare security audit checklist", "completed": false }
+        ]
+      },
+      {
+        "id": "deployment",
+        "name": "Deployment",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "dep2-1", "task": "Configure private VPC subnets", "completed": false }
+        ]
+      },
+      {
+        "id": "monitoring",
+        "name": "Monitoring",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "mon2-1", "task": "Plan real-time alert logs", "completed": false }
+        ]
+      },
+      {
+        "id": "maintenance",
+        "name": "Maintenance",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "maint2-1", "task": "Draft quarterly system verification plans", "completed": false }
+        ]
+      }
+    ]
+  }
+]
