@@ -11,6 +11,7 @@ import { Documents } from './components/Documents';
 import { ProjectInfo } from './components/ProjectInfo';
 import { Footer } from './components/Footer';
 import initialProjectsData from './data/projects.json';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { Sparkles, Milestone, ClipboardList, PenTool } from 'lucide-react';
 
 // Cast JSON mock data to Project types
@@ -25,10 +26,8 @@ export default function App() {
 
   // 1. Initial State Load
   useEffect(() => {
-    const savedProjects = localStorage.getItem('devflow_projects');
-    const savedTheme = localStorage.getItem('devflow_theme');
-    
     // Theme load
+    const savedTheme = localStorage.getItem('devflow_theme');
     const isDark = savedTheme ? savedTheme === 'dark' : true;
     setDarkMode(isDark);
     if (isDark) {
@@ -38,25 +37,63 @@ export default function App() {
     }
 
     // Projects load
-    if (savedProjects) {
-      try {
-        const parsed = JSON.parse(savedProjects) as Project[];
-        if (parsed.length > 0) {
-          setProjects(parsed);
-          setActiveProjectId(parsed[0].id);
-        } else {
+    const loadProjects = async () => {
+      if (isSupabaseConfigured && supabase) {
+        console.log("DevFlow: Loading data from Supabase...");
+        try {
+          const { data, error } = await supabase
+            .from('projects')
+            .select('*')
+            .order('id', { ascending: true });
+
+          if (error) throw error;
+
+          if (data && data.length > 0) {
+            setProjects(data as Project[]);
+            setActiveProjectId(data[0].id);
+            return;
+          } else {
+            // Seed database if it's empty
+            console.log("DevFlow: Supabase database is empty. Seeding with default data...");
+            const { error: seedError } = await supabase
+              .from('projects')
+              .insert(typedInitialProjects);
+
+            if (seedError) throw seedError;
+            setProjects(typedInitialProjects);
+            setActiveProjectId(typedInitialProjects[0].id);
+            return;
+          }
+        } catch (err) {
+          console.error("DevFlow: Gagal memuat dari Supabase. Fallback ke Local Storage.", err);
+        }
+      }
+
+      // Fallback: Local Storage
+      console.log("DevFlow: Loading data from Local Storage...");
+      const savedProjects = localStorage.getItem('devflow_projects');
+      if (savedProjects) {
+        try {
+          const parsed = JSON.parse(savedProjects) as Project[];
+          if (parsed.length > 0) {
+            setProjects(parsed);
+            setActiveProjectId(parsed[0].id);
+          } else {
+            setProjects(typedInitialProjects);
+            setActiveProjectId(typedInitialProjects[0].id);
+          }
+        } catch {
           setProjects(typedInitialProjects);
           setActiveProjectId(typedInitialProjects[0].id);
         }
-      } catch {
+      } else {
         setProjects(typedInitialProjects);
         setActiveProjectId(typedInitialProjects[0].id);
+        localStorage.setItem('devflow_projects', JSON.stringify(typedInitialProjects));
       }
-    } else {
-      setProjects(typedInitialProjects);
-      setActiveProjectId(typedInitialProjects[0].id);
-      localStorage.setItem('devflow_projects', JSON.stringify(typedInitialProjects));
-    }
+    };
+
+    loadProjects();
   }, []);
 
   // 2. Active Project
@@ -110,9 +147,49 @@ export default function App() {
     };
   }, [activeProject]);
 
-  // 5. Update Local Storage helper
-  const saveProjectsToLocalStorage = (updatedProjects: Project[]) => {
+  // 5. Update State and Database sync helper
+  const saveProjectsState = async (
+    updatedProjects: Project[],
+    projectId: string,
+    action: 'insert' | 'update' | 'delete',
+    singleProject?: Project
+  ) => {
+    // 1. Always update Local Storage as local copy/cache
     localStorage.setItem('devflow_projects', JSON.stringify(updatedProjects));
+
+    // 2. Sync to Supabase if configured
+    if (isSupabaseConfigured && supabase) {
+      try {
+        if (action === 'insert' && singleProject) {
+          const { error } = await supabase.from('projects').insert([singleProject]);
+          if (error) throw error;
+        } else if (action === 'delete') {
+          const { error } = await supabase.from('projects').delete().eq('id', projectId);
+          if (error) throw error;
+        } else if (action === 'update') {
+          const target = updatedProjects.find(p => p.id === projectId);
+          if (target) {
+            const { error } = await supabase
+              .from('projects')
+              .update({
+                name: target.name,
+                description: target.description,
+                owner: target.owner,
+                deadline: target.deadline,
+                priority: target.priority,
+                status: target.status,
+                lastUpdate: target.lastUpdate,
+                documents: target.documents,
+                stages: target.stages,
+              })
+              .eq('id', projectId);
+            if (error) throw error;
+          }
+        }
+      } catch (err) {
+        console.error(`DevFlow: Supabase sync error (${action}):`, err);
+      }
+    }
   };
 
   // Helper to recalculate stage & project status based on checklist
@@ -258,7 +335,7 @@ export default function App() {
     const nextProjects = [...projects, newProject];
     setProjects(nextProjects);
     setActiveProjectId(newProject.id);
-    saveProjectsToLocalStorage(nextProjects);
+    saveProjectsState(nextProjects, newProject.id, 'insert', newProject);
   };
 
   const handleToggleItem = (stageId: string, itemId: string) => {
@@ -286,7 +363,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleAddItem = (stageId: string, taskText: string) => {
@@ -316,7 +393,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleDeleteItem = (stageId: string, itemId: string) => {
@@ -341,7 +418,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleSaveNotes = (stageId: string, notesText: string) => {
@@ -367,7 +444,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleAddDocument = (fileName: string, type: string) => {
@@ -384,7 +461,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleDeleteDocument = (fileName: string) => {
@@ -400,7 +477,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, activeProjectId, 'update');
   };
 
   const handleUpdateProjectInfo = (
@@ -419,7 +496,7 @@ export default function App() {
     });
 
     setProjects(updated);
-    saveProjectsToLocalStorage(updated);
+    saveProjectsState(updated, projectId, 'update');
   };
 
   const handleDeleteProject = (projectId: string) => {
@@ -436,7 +513,7 @@ export default function App() {
       if (nextProjects[0].stages.length > 0) {
         setActiveStageId(nextProjects[0].stages[0].id);
       }
-      saveProjectsToLocalStorage(nextProjects);
+      saveProjectsState(nextProjects, projectId, 'delete');
     }
   };
 
