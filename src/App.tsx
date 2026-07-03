@@ -422,6 +422,24 @@ export default function App() {
     saveProjectsToLocalStorage(updated);
   };
 
+  const handleDeleteProject = (projectId: string) => {
+    if (projects.length <= 1) {
+      alert("Tidak dapat menghapus satu-satunya project yang tersisa.");
+      return;
+    }
+    const targetProject = projects.find((p) => p.id === projectId);
+    const targetName = targetProject ? targetProject.name : "project";
+    if (confirm(`Apakah Anda yakin ingin menghapus project "${targetName}" beserta seluruh progress dan dokumen di dalamnya?`)) {
+      const nextProjects = projects.filter((p) => p.id !== projectId);
+      setProjects(nextProjects);
+      setActiveProjectId(nextProjects[0].id);
+      if (nextProjects[0].stages.length > 0) {
+        setActiveStageId(nextProjects[0].stages[0].id);
+      }
+      saveProjectsToLocalStorage(nextProjects);
+    }
+  };
+
   // Wait until local storage initialization finishes
   if (!activeProject) {
     return (
@@ -573,6 +591,7 @@ export default function App() {
                   project={activeProject}
                   progressPercent={stats.progressPercent}
                   onUpdateProjectInfo={handleUpdateProjectInfo}
+                  onDeleteProject={handleDeleteProject}
                 />
               </div>
             )}

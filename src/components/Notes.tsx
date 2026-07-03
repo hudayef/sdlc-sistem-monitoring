@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { SDLCStage } from '../types';
 import { Save, Check } from 'lucide-react';
 
@@ -11,11 +11,36 @@ export const Notes: React.FC<NotesProps> = ({ stage, onSaveNotes }) => {
   const [text, setText] = useState(stage.notes);
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'dirty'>('saved');
 
+  const textRef = useRef(text);
+  const stageIdRef = useRef(stage.id);
+  const saveStatusRef = useRef(saveStatus);
+
+  // Sync refs on every state change
+  useEffect(() => {
+    textRef.current = text;
+    saveStatusRef.current = saveStatus;
+  }, [text, saveStatus]);
+
   // Sync state with stage if it changes from timeline click
   useEffect(() => {
+    // If previous stage was dirty and we are switching stages, save the old notes first!
+    if (saveStatusRef.current === 'dirty' && stageIdRef.current !== stage.id) {
+      onSaveNotes(stageIdRef.current, textRef.current);
+    }
+
     setText(stage.notes);
     setSaveStatus('saved');
-  }, [stage.id, stage.notes]);
+    stageIdRef.current = stage.id;
+  }, [stage.id, stage.notes, onSaveNotes]);
+
+  // Auto-save on unmount (e.g. changing tabs) if dirty
+  useEffect(() => {
+    return () => {
+      if (saveStatusRef.current === 'dirty') {
+        onSaveNotes(stageIdRef.current, textRef.current);
+      }
+    };
+  }, [onSaveNotes]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);

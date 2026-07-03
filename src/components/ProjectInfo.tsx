@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Project, ProjectPriority } from '../types';
-import { Calendar, User, ShieldAlert, Award, FileText, Edit3, Check, X } from 'lucide-react';
+import { Calendar, User, ShieldAlert, Award, FileText, Edit3, Check, X, Trash2 } from 'lucide-react';
 
 interface ProjectInfoProps {
   project: Project;
@@ -9,12 +9,14 @@ interface ProjectInfoProps {
     projectId: string,
     updatedFields: Partial<Omit<Project, 'id' | 'stages' | 'documents'>>
   ) => void;
+  onDeleteProject: (projectId: string) => void;
 }
 
 export const ProjectInfo: React.FC<ProjectInfoProps> = ({
   project,
   progressPercent,
   onUpdateProjectInfo,
+  onDeleteProject,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(project.description);
@@ -68,13 +70,22 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({
           </div>
 
           {!isEditing ? (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="flex items-center space-x-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm hover:bg-muted/50 transition-all"
-            >
-              <Edit3 className="h-3.5 w-3.5 text-muted-foreground" />
-              <span>Edit Info</span>
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center space-x-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm hover:bg-muted/50 transition-all"
+              >
+                <Edit3 className="h-3.5 w-3.5 text-muted-foreground" />
+                <span>Edit Info</span>
+              </button>
+              <button
+                onClick={() => onDeleteProject(project.id)}
+                className="flex items-center space-x-1.5 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-1.5 text-xs font-semibold text-red-500 shadow-sm hover:bg-red-500/10 hover:border-red-500/30 transition-all"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                <span>Hapus Project</span>
+              </button>
+            </div>
           ) : (
             <div className="flex items-center space-x-1.5">
               <button

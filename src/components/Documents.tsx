@@ -72,6 +72,15 @@ export const Documents: React.FC<DocumentsProps> = ({
       name = `${name}.${newDocType}`;
     }
     
+    // Prevent duplicates to avoid duplicate key rendering warning and mass deletion bug
+    const isDuplicate = project.documents.some(
+      (doc) => doc.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isDuplicate) {
+      alert(`Dokumen dengan nama "${name}" sudah ada dalam project ini.`);
+      return;
+    }
+    
     onAddDocument(name, newDocType);
     setNewDocName('');
     setModalOpen(false);
