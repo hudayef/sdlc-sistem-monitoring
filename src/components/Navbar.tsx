@@ -51,7 +51,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <>
+      <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Left Side: Logo & Project Selector */}
@@ -148,9 +149,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
       </div>
+    </header>
 
-      {/* Modal - New Project Form */}
-      {modalOpen && (
+    {/* Modal - New Project Form */}
+    {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Backdrop */}
           <div
@@ -269,6 +271,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
