@@ -46,7 +46,15 @@ export default function App() {
             .select('*')
             .order('id', { ascending: true });
 
-          if (error) throw error;
+          if (error) {
+            console.error("Supabase Error:", {
+              message: error.message,
+              details: error.details,
+              hint: error.hint,
+              code: error.code
+            });
+            throw error;
+          }
 
           if (data && data.length > 0) {
             setProjects(data as Project[]);
@@ -59,7 +67,15 @@ export default function App() {
               .from('projects')
               .insert(typedInitialProjects);
 
-            if (seedError) throw seedError;
+            if (seedError) {
+              console.error("Supabase Error:", {
+                message: seedError.message,
+                details: seedError.details,
+                hint: seedError.hint,
+                code: seedError.code
+              });
+              throw seedError;
+            }
             setProjects(typedInitialProjects);
             setActiveProjectId(typedInitialProjects[0].id);
             return;
@@ -162,10 +178,26 @@ export default function App() {
       try {
         if (action === 'insert' && singleProject) {
           const { error } = await supabase.from('projects').insert([singleProject]);
-          if (error) throw error;
+          if (error) {
+            console.error("Supabase Error (insert):", {
+              message: error.message,
+              details: error.details,
+              hint: error.hint,
+              code: error.code
+            });
+            throw error;
+          }
         } else if (action === 'delete') {
           const { error } = await supabase.from('projects').delete().eq('id', projectId);
-          if (error) throw error;
+          if (error) {
+            console.error("Supabase Error (delete):", {
+              message: error.message,
+              details: error.details,
+              hint: error.hint,
+              code: error.code
+            });
+            throw error;
+          }
         } else if (action === 'update') {
           const target = updatedProjects.find(p => p.id === projectId);
           if (target) {
@@ -183,7 +215,15 @@ export default function App() {
                 stages: target.stages,
               })
               .eq('id', projectId);
-            if (error) throw error;
+            if (error) {
+              console.error("Supabase Error (update):", {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+              });
+              throw error;
+            }
           }
         }
       } catch (err) {
