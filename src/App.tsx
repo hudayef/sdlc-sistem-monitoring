@@ -24,6 +24,50 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [darkMode, setDarkMode] = useState<boolean>(true);
 
+  // Fungsi penjamin keberadaan tahap "MVP Product" pada setiap proyek yang dimuat
+  const ensureMvpStageExist = (loadedProjects: Project[]): Project[] => {
+    // Melakukan mapping (iterasi) pada seluruh array proyek yang diterima
+    return loadedProjects.map((project) => {
+      // Memeriksa apakah proyek saat ini sudah memiliki tahap dengan id 'mvp_product'
+      const hasMvp = project.stages.some((s) => s.id === 'mvp_product');
+      // Jika tahap 'mvp_product' sudah ada, kembalikan data proyek tanpa modifikasi
+      if (hasMvp) return project;
+
+      // Mencari indeks posisi tahap PRD ('prd') di dalam array alur kerja SDLC
+      const prdIndex = project.stages.findIndex((s) => s.id === 'prd');
+      
+      // Mendefinisikan template data tahap baru "MVP Product"
+      const newStage: SDLCStage = {
+        id: 'mvp_product', // ID unik untuk mengidentifikasi tahap ini
+        name: 'MVP Product', // Nama tahap yang akan ditampilkan di UI
+        status: 'Pending', // Status awal dari tahap baru ini
+        notes: '', // Catatan atau remark awal yang masih kosong
+        checklist: [ // Daftar tugas standar awal untuk tahap MVP Product
+          { id: `mvp-${Date.now()}-1`, task: 'Validasi fitur inti (core features) MVP', completed: false },
+          { id: `mvp-${Date.now()}-2`, task: 'Perencanaan strategi rilis awal (Go-to-Market)', completed: false }
+        ]
+      };
+
+      // Menduplikasi array stages proyek untuk menghindari mutasi langsung pada state
+      const newStages = [...project.stages];
+      
+      // Jika tahap PRD ditemukan (indeks tidak sama dengan -1)
+      if (prdIndex !== -1) {
+        // Sisipkan tahap baru "MVP Product" tepat setelah tahap PRD (prdIndex + 1)
+        newStages.splice(prdIndex + 1, 0, newStage);
+      } else {
+        // Jika tahap PRD tidak ditemukan, tambahkan tahap baru ini di paling akhir alur
+        newStages.push(newStage);
+      }
+
+      // Mengembalikan objek proyek yang baru dengan array stages yang sudah disisipi tahap MVP
+      return {
+        ...project, // Menyalin seluruh properti proyek yang sudah ada
+        stages: newStages, // Mengganti properti stages dengan array baru hasil modifikasi
+      };
+    });
+  };
+
   // 1. Initial State Load
   useEffect(() => {
     // Theme load
@@ -57,7 +101,8 @@ export default function App() {
           }
 
           if (data && data.length > 0) {
-            setProjects(data as Project[]);
+            const migrated = ensureMvpStageExist(data as Project[]);
+            setProjects(migrated);
             setActiveProjectId(data[0].id);
             return;
           } else {
@@ -76,7 +121,8 @@ export default function App() {
               });
               throw seedError;
             }
-            setProjects(typedInitialProjects);
+            const migrated = ensureMvpStageExist(typedInitialProjects);
+            setProjects(migrated);
             setActiveProjectId(typedInitialProjects[0].id);
             return;
           }
@@ -92,20 +138,24 @@ export default function App() {
         try {
           const parsed = JSON.parse(savedProjects) as Project[];
           if (parsed.length > 0) {
-            setProjects(parsed);
+            const migrated = ensureMvpStageExist(parsed);
+            setProjects(migrated);
             setActiveProjectId(parsed[0].id);
           } else {
-            setProjects(typedInitialProjects);
+            const migrated = ensureMvpStageExist(typedInitialProjects);
+            setProjects(migrated);
             setActiveProjectId(typedInitialProjects[0].id);
           }
         } catch {
-          setProjects(typedInitialProjects);
+          const migrated = ensureMvpStageExist(typedInitialProjects);
+          setProjects(migrated);
           setActiveProjectId(typedInitialProjects[0].id);
         }
       } else {
-        setProjects(typedInitialProjects);
+        const migrated = ensureMvpStageExist(typedInitialProjects);
+        setProjects(migrated);
         setActiveProjectId(typedInitialProjects[0].id);
-        localStorage.setItem('devflow_projects', JSON.stringify(typedInitialProjects));
+        localStorage.setItem('devflow_projects', JSON.stringify(migrated));
       }
     };
 
