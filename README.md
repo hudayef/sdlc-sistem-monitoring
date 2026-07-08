@@ -1,4 +1,4 @@
-# 🚀 DevFlow — Website Monitoring Progress SDLC
+#  DevFlow — Website Monitoring Progress SDLC
 
 <div align="center">
 
