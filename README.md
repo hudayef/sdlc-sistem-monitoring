@@ -31,7 +31,8 @@ Aplikasi ini beroperasi sepenuhnya secara **client-side (static website)** tanpa
 ## ✨ Fitur Utama
 
 - **📊 Dashboard Project**: Menyajikan ringkasan proyek aktif, batas waktu (deadline), penanggung jawab, skala prioritas, dan progress keseluruhan.
-- **📍 SDLC Timeline**: Jalur timeline vertikal interaktif yang melacak 17 tahapan alur kerja pengembangan software.
+- **📍 SDLC Timeline**: Jalur timeline vertikal interaktif yang melacak 18 tahapan alur kerja pengembangan software.
+- **🔗 Tautan Dokumen Fungsional**: Dokumen proyek yang didaftarkan kini dapat diklik langsung untuk membuka tautan atau file pendukung (seperti Figma, spesifikasi API, PDF, dll.) pada tab baru secara instan.
 - **📈 Progress Tracking**: Persentase progress dihitung secara otomatis berdasarkan rasio checklist tugas yang diselesaikan.
 - **☑️ Interactive Checklist**: Butir checklist pekerjaan pada setiap tahap yang dapat dicentang, ditambahkan, atau dihapus secara dinamis.
 - **📝 Notes & Remarks**: Bidang teks catatan per tahap yang terintegrasi dengan fitur penyimpanan otomatis (*auto-save*).
@@ -45,7 +46,7 @@ Aplikasi ini beroperasi sepenuhnya secara **client-side (static website)** tanpa
 
 ## 🔄 SDLC Workflow
 
-Alur kerja pengembangan di dalam aplikasi mengikuti 17 tahapan standar industri berikut secara berurutan:
+Alur kerja pengembangan di dalam aplikasi mengikuti 18 tahapan standar industri berikut secara berurutan:
 
 ```mermaid
 graph TD
@@ -53,7 +54,8 @@ graph TD
     B --> C[Requirement Analysis]
     C --> D[Software Requirement Specification - SRS]
     D --> E[Product Requirement Document - PRD]
-    E --> F[User Flow]
+    E --> MVP[MVP Product]
+    MVP --> F[User Flow]
     F --> G[Wireframe]
     G --> H[UI Design]
     H --> I[Design System]
