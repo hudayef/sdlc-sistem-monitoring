@@ -73,6 +73,16 @@
         ]
       },
       {
+        "id": "mvp_product",
+        "name": "MVP Product",
+        "status": "Completed",
+        "notes": "MVP core features finalized. Prioritizing essential user flows for beta launch.",
+        "checklist": [
+          { "id": "mvp-1", "task": "Validate MVP core features", "completed": true },
+          { "id": "mvp-2", "task": "Plan early release strategy", "completed": true }
+        ]
+      },
+      {
         "id": "user_flow",
         "name": "User Flow",
         "status": "Completed",
@@ -262,6 +272,15 @@
         "notes": "",
         "checklist": [
           { "id": "prd2-1", "task": "Draft feature roadmap", "completed": false }
+        ]
+      },
+      {
+        "id": "mvp_product",
+        "name": "MVP Product",
+        "status": "Pending",
+        "notes": "",
+        "checklist": [
+          { "id": "mvp2-1", "task": "Validate core MVP features", "completed": false }
         ]
       },
       {

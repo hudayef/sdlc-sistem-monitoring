@@ -316,6 +316,10 @@ export default function App() {
         { id: 'prd-t1', task: 'Definisi ruang lingkup rilis MVP', completed: false },
         { id: 'prd-t2', task: 'Metrik keberhasilan performa produk', completed: false }
       ]},
+      { id: 'mvp_product', name: 'MVP Product', status: 'Pending', notes: '', checklist: [
+        { id: 'mvp-t1', task: 'Validasi fitur inti (core features) MVP', completed: false },
+        { id: 'mvp-t2', task: 'Perencanaan strategi rilis awal (Go-to-Market)', completed: false }
+      ]},
       { id: 'user_flow', name: 'User Flow', status: 'Pending', notes: '', checklist: [
         { id: 'uf-t1', task: 'Pemetaan navigasi perjalanan user (flow chart)', completed: false }
       ]},
