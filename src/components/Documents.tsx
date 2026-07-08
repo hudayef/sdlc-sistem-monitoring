@@ -140,18 +140,26 @@ export const Documents: React.FC<DocumentsProps> = ({
                 key={doc.name}
                 className="group flex items-center justify-between rounded-xl border border-border/60 bg-muted/10 p-3.5 transition-all hover:bg-muted/30 hover:border-border hover:shadow-sm"
               >
-                <div className="flex items-center space-x-3 min-w-0">
+                <a 
+                  href={doc.name.startsWith('http') ? doc.name : (doc.name.includes('www.') ? `https://${doc.name}` : doc.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 min-w-0 flex-1 hover:opacity-80 transition-opacity cursor-pointer"
+                  title="Buka dokumen"
+                >
                   <div className="shrink-0">{getFileIcon(doc.type)}</div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-foreground truncate max-w-[160px] sm:max-w-[200px]">
+                    <p className="text-sm font-semibold text-foreground truncate max-w-[160px] sm:max-w-[200px] group-hover:text-primary transition-colors">
                       {doc.name}
                     </p>
                     <div className="mt-1 flex items-center space-x-2">
                       {getFileBadge(doc.type)}
-                      <span className="text-3xs text-muted-foreground">Mock File Link</span>
+                      <span className="text-3xs text-muted-foreground group-hover:text-primary transition-colors">
+                        Buka Link
+                      </span>
                     </div>
                   </div>
-                </div>
+                </a>
 
                 <button
                   onClick={() => onDeleteDocument(doc.name)}
